@@ -148,7 +148,7 @@ class agent(object):
 		next_state_action_torch = self.model_target(batch_next_state_torch)
 		next_state_action_torch = torch.max(next_state_action_torch, 1)[0].detach()
 	
-		Y = reward_torch + (self.gamma * next_state_action_torch * terminal_torch)
+		Y = (reward_torch + (self.gamma * next_state_action_torch * terminal_torch)).float()
 		
 		self.model_online.train()
 		loss = F.mse_loss(state_action_torch, Y.unsqueeze(1))
@@ -195,7 +195,7 @@ class agent(object):
 		next_state_action_torch = self.model_target(batch_next_state_torch_3)
 		next_state_action_torch = torch.max(next_state_action_torch, 1)[0].detach()
 	
-		Y = reward_torch + (self.gamma * next_state_action_torch * terminal_torch)
+		Y = (reward_torch + (self.gamma * next_state_action_torch * terminal_torch)).float()
 		
 		self.model_online.train()
 		loss = F.mse_loss(state_action_torch, Y.unsqueeze(1))
@@ -219,7 +219,7 @@ class agent(object):
 									batch_next_state_torch_2,batch_next_state_torch_3)
 		next_state_action_torch_r = torch.max(next_state_action_torch_r, 1)[0].detach()
 	
-		Y_r = reward_torch + (self.gamma * next_state_action_torch_r * terminal_torch)
+		Y_r = (reward_torch + (self.gamma * next_state_action_torch_r * terminal_torch)).float()
 		
 		self.model_R_online.train()
 		#loss = F.mse_loss(state_action_torch, Y.unsqueeze(1))

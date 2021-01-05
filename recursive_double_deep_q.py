@@ -310,9 +310,12 @@ while episode <= 3000:  # episode loop
 		if step >= 4 :
 			state_torch_r = [state_torch[step-3], state_torch[step-2], state_torch[step-1], state_torch[step]]
 			action = g.act_epsilon_r(state_torch_r, epsilon * (0.998**episode)) #epsilon * (1 / episode))
+			
 			next_state, reward, done, info = env.step(action)
+			
 			next_state_torch.append(torch.from_numpy(next_state).type(torch.FloatTensor).unsqueeze(0))#.to('cuda'))
 			next_state_torch_r = [next_state_torch[step-3], next_state_torch[step-2], next_state_torch[step-1], next_state_torch[step]]
+			
 			g.store_r(state_torch_r, action, reward, next_state_torch_r, done)
 			g.train_r()
 		else :
@@ -338,7 +341,6 @@ while episode <= 3000:  # episode loop
 		start_time = timeit.default_timer()
 		play(env, g)
 	
-		
 # TEST     
 episode = 0
 state = env.reset()
